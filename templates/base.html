@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}MaintainX — Modern Maintenance Management{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}MaintainX centralizes facility maintenance, operational workflows, issue tracking, and repair dispatch in one minimalist platform.{% endblock %}">
+  
+  <!-- Premium Editorial & UI Fonts: Instrument Serif + Geist -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <!-- Core Design System Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <!-- Header / Navigation Bar -->
+  <header class="site-header">
+    <div class="container">
+      <div class="nav-inner">
+        <!-- Brand / Logo -->
+        <a href="{{ url_for('home') }}" class="brand-logo" id="nav-brand-logo">
+          <span class="brand-glyph">M</span>
+          <span>MaintainX</span>
+        </a>
+
+        <!-- Public Navigation Links -->
+        <nav>
+          <ul class="nav-menu">
+            <li><a href="{{ url_for('home') }}" class="nav-link">Home</a></li>
+            <li><a href="{{ url_for('features') }}" class="nav-link">Features</a></li>
+            <li><a href="{{ url_for('how_it_works') }}" class="nav-link">How It Works</a></li>
+            <li><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+            {% if is_authenticated %}
+              <li><a href="{{ url_for('user.dashboard') }}" class="nav-link" style="color: var(--ink-primary); font-weight: 600;">Dashboard</a></li>
+              <li><a href="{{ url_for('user.my_complaints') }}" class="nav-link">My Tickets</a></li>
+            {% endif %}
+          </ul>
+        </nav>
+
+        <!-- Right Header Actions (Auth / Dashboard CTA) -->
+        <div class="nav-actions nav-actions-desktop">
+          {% if is_authenticated %}
+            <span class="text-mono text-muted" style="font-size: 0.8rem; margin-right: 0.5rem;">{{ current_user_name }}</span>
+            <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary btn-sm" id="nav-new-ticket-btn">+ New Request</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary btn-sm" id="nav-logout-btn">Log Out</a>
+          {% else %}
+            <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-sm" id="nav-login-btn">Log In</a>
+            <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-sm" id="nav-get-started-btn">Get Started</a>
+          {% endif %}
+        </div>
+
+        <!-- Mobile Hamburger Toggle Button -->
+        <button class="mobile-nav-toggle" id="mobile-menu-toggle" aria-label="Toggle Navigation Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="mobile-menu-drawer" id="mobile-menu-drawer">
+      <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+      <a href="{{ url_for('features') }}" class="nav-link">Features</a>
+      <a href="{{ url_for('how_it_works') }}" class="nav-link">How It Works</a>
+      <a href="{{ url_for('about') }}" class="nav-link">About</a>
+      {% if is_authenticated %}
+        <a href="{{ url_for('user.dashboard') }}" class="nav-link">Dashboard</a>
+        <a href="{{ url_for('user.my_complaints') }}" class="nav-link">My Tickets</a>
+        <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary btn-block">+ New Request</a>
+        <a href="{{ url_for('auth.logout') }}" class="btn btn-secondary btn-block">Log Out ({{ current_user_name }})</a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-block">Log In</a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-block">Get Started</a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Flash Messages Section -->
+  <div class="container flash-container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash-alert flash-{{ category }}" role="alert">
+            <span>{{ message }}</span>
+            <button type="button" class="flash-close" aria-label="Dismiss alert">&times;</button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+  </div>
+
+  <!-- Main Body Content -->
+  <main class="main-content">
+    {% if error_title %}
+      <div class="container section" style="text-align: center; max-width: 600px;">
+        <h1 class="editorial-serif" style="font-size: 3rem; margin-bottom: 1rem;">{{ error_title }}</h1>
+        <p class="lead" style="margin-bottom: 2rem;">{{ error_message }}</p>
+        <a href="{{ url_for('home') }}" class="btn btn-primary">Return Home</a>
+      </div>
+    {% else %}
+      {% block content %}{% endblock %}
+    {% endif %}
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <span class="brand-glyph">M</span>
+            <span>MaintainX</span>
+          </div>
+          <p>
+            An editorial, utilitarian maintenance operations platform designed to streamline issue reporting, assignment dispatch, and equipment upkeep.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Navigation</div>
+          <ul class="footer-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('features') }}">Features</a></li>
+            <li><a href="{{ url_for('how_it_works') }}">How It Works</a></li>
+            <li><a href="{{ url_for('about') }}">About Platform</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Workflows</div>
+          <ul class="footer-links">
+            {% if is_authenticated %}
+              <li><a href="{{ url_for('user.dashboard') }}">User Dashboard</a></li>
+              <li><a href="{{ url_for('user.submit_complaint') }}">Submit Ticket</a></li>
+              <li><a href="{{ url_for('user.my_complaints') }}">My Complaints</a></li>
+              <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            {% else %}
+              <li><a href="{{ url_for('auth.login') }}">User Login</a></li>
+              <li><a href="{{ url_for('auth.register') }}">Create Account</a></li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Architecture</div>
+          <ul class="footer-links">
+            <li><span class="text-mono text-muted">Python Flask 3</span></li>
+            <li><span class="text-mono text-muted">SQLite3 Embedded</span></li>
+            <li><span class="text-mono text-muted">Session Hashing</span></li>
+            <li><span class="text-mono text-muted">Bento UI Design</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; MaintainX. Utilitarian Maintenance Operations Platform.</div>
+        <div class="text-mono">Structured. Centralized. Accountable.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Main JavaScript File -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

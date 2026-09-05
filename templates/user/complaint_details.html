@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Ticket #{{ complaint.id }} Details — MaintainX{% endblock %}
+
+{% block content %}
+<div class="container container-narrow" style="padding-top: 3rem; padding-bottom: 5rem;">
+  <div style="margin-bottom: 2rem;">
+    <a href="{{ url_for('user.my_complaints') }}" class="table-link text-mono" style="font-size: 0.85rem;">&larr; Back to All Tickets</a>
+  </div>
+
+  <div class="detail-card">
+    <div class="detail-header">
+      <div>
+        <div class="text-mono text-muted" style="font-size: 0.8rem; margin-bottom: 0.35rem;">
+          TICKET #{{ complaint.id }} &bull; FILED {{ complaint.created_at }}
+        </div>
+        <h1 class="editorial-serif" style="font-size: 2rem; margin-bottom: 0;">{{ complaint.title }}</h1>
+      </div>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+        <span class="badge badge-{{ complaint.priority|lower }}">{{ complaint.priority }} Priority</span>
+        <span class="badge badge-{{ complaint.status|lower|replace(' ', '_') }}">{{ complaint.status }}</span>
+      </div>
+    </div>
+
+    <!-- Metadata Grid -->
+    <div class="detail-meta-grid">
+      <div class="detail-meta-item">
+        <label>Category</label>
+        <span>{{ complaint.category }}</span>
+      </div>
+      <div class="detail-meta-item">
+        <label>Location / Room</label>
+        <span>{{ complaint.location }}</span>
+      </div>
+      <div class="detail-meta-item">
+        <label>Reported By</label>
+        <span>{{ complaint.user_name if complaint.user_name else current_user_name }}</span>
+      </div>
+    </div>
+
+    <!-- Issue Description -->
+    <div style="margin-bottom: 2.5rem;">
+      <h3 style="font-size: 1rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--ink-muted); letter-spacing: 0.08em; margin-bottom: 0.75rem;">
+        Detailed Description
+      </h3>
+      <div style="background-color: var(--bg-subtle); padding: 1.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-light); line-height: 1.7; white-space: pre-wrap;">{{ complaint.description }}</div>
+    </div>
+
+    <!-- Lifecycle Status Tracker -->
+    <div>
+      <h3 style="font-size: 1rem; font-family: var(--font-mono); text-transform: uppercase; color: var(--ink-muted); letter-spacing: 0.08em; margin-bottom: 1rem;">
+        Ticket Lifecycle
+      </h3>
+      <div class="workflow-grid" style="gap: 1rem;">
+        <div class="workflow-step" style="border-top-color: var(--ink-primary);">
+          <div class="step-num text-mono">01 RECEIVED</div>
+          <div class="step-title" style="font-size: 0.95rem;">Pending</div>
+          <div class="step-desc" style="font-size: 0.8rem;">Logged into the database.</div>
+        </div>
+
+        <div class="workflow-step" style="border-top-color: {% if complaint.status in ['In Progress', 'Resolved', 'Closed'] %}var(--ink-primary){% else %}var(--border-light){% endif %};">
+          <div class="step-num text-mono">02 DISPATCH</div>
+          <div class="step-title" style="font-size: 0.95rem;">In Progress</div>
+          <div class="step-desc" style="font-size: 0.8rem;">Technician working on site.</div>
+        </div>
+
+        <div class="workflow-step" style="border-top-color: {% if complaint.status in ['Resolved', 'Closed'] %}var(--ink-primary){% else %}var(--border-light){% endif %};">
+          <div class="step-num text-mono">03 COMPLETE</div>
+          <div class="step-title" style="font-size: 0.95rem;">Resolved</div>
+          <div class="step-desc" style="font-size: 0.8rem;">Issue fixed and confirmed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <a href="{{ url_for('user.my_complaints') }}" class="btn btn-secondary">&larr; Back to My Tickets</a>
+    <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary">+ Report Another Issue</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}How It Works — MaintainX{% endblock %}
+
+{% block content %}
+<section class="section section-hero">
+  <div class="container">
+    <div class="hero-tag">System Lifecycle</div>
+    <h1 class="hero-title editorial-serif">
+      The standard protocol for maintenance resolution.
+    </h1>
+    <p class="hero-description">
+      Step-by-step workflow designed to transform chaotic facility issues into organized, predictable, and measurable resolutions.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="workflow-grid" style="margin-bottom: 4rem;">
+      <div class="workflow-step reveal-on-scroll">
+        <div class="step-num">STEP 01</div>
+        <div class="step-title">Submit Ticket</div>
+        <div class="step-desc">
+          Occupants and staff log into MaintainX and submit an issue ticket detailing room location, symptom, priority, and maintenance category.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 80ms;">
+        <div class="step-num">STEP 02</div>
+        <div class="step-title">Queue & Triage</div>
+        <div class="step-desc">
+          The request enters the central database with state <code>Pending</code>, ready for immediate review and prioritization by managers.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 160ms;">
+        <div class="step-num">STEP 03</div>
+        <div class="step-title">Dispatch & Repair</div>
+        <div class="step-desc">
+          Technicians address the physical failure, transitioning the complaint to <code>In Progress</code> with clear progress milestones.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 240ms;">
+        <div class="step-num">STEP 04</div>
+        <div class="step-title">Verify & Resolve</div>
+        <div class="step-desc">
+          Once confirmed functional, the request status is updated to <code>Resolved</code>, providing immediate confirmation to the submitter.
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive CTA -->
+    <div class="cta-banner reveal-on-scroll">
+      <h2 class="cta-banner-title editorial-serif">Ready to standardize your operations?</h2>
+      <p class="cta-banner-sub">Register an account and start submitting your first maintenance requests.</p>
+      <div>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Create Free Account</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

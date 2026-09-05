@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}My Maintenance Requests — MaintainX{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div>
+      <div class="section-label">Records & History</div>
+      <h1 class="dashboard-title editorial-serif">My Maintenance Tickets</h1>
+      <p class="dashboard-subtitle">All service requests submitted under your user profile.</p>
+    </div>
+    <div>
+      <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary" id="my-tickets-new-btn">+ New Request</a>
+    </div>
+  </div>
+
+  <!-- Filter Bar -->
+  <div class="filter-nav">
+    <a href="{{ url_for('user.my_complaints', status='All') }}" class="filter-btn {% if current_status == 'All' %}active{% endif %}">
+      All ({{ stats.total }})
+    </a>
+    <a href="{{ url_for('user.my_complaints', status='Pending') }}" class="filter-btn {% if current_status == 'Pending' %}active{% endif %}">
+      Pending ({{ stats.pending }})
+    </a>
+    <a href="{{ url_for('user.my_complaints', status='In Progress') }}" class="filter-btn {% if current_status == 'In Progress' %}active{% endif %}">
+      In Progress ({{ stats.in_progress }})
+    </a>
+    <a href="{{ url_for('user.my_complaints', status='Resolved') }}" class="filter-btn {% if current_status == 'Resolved' %}active{% endif %}">
+      Resolved ({{ stats.resolved }})
+    </a>
+  </div>
+
+  <!-- Tickets Table -->
+  {% if complaints and complaints|length > 0 %}
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Ticket ID</th>
+            <th>Issue Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Created</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for complaint in complaints %}
+            <tr>
+              <td class="text-mono">#{{ complaint.id }}</td>
+              <td>
+                <a href="{{ url_for('user.complaint_details', complaint_id=complaint.id) }}" class="table-link">
+                  <strong>{{ complaint.title }}</strong>
+                </a>
+              </td>
+              <td><span class="text-mono">{{ complaint.category }}</span></td>
+              <td>{{ complaint.location }}</td>
+              <td>
+                <span class="badge badge-{{ complaint.priority|lower }}">{{ complaint.priority }}</span>
+              </td>
+              <td>
+                <span class="badge badge-{{ complaint.status|lower|replace(' ', '_') }}">{{ complaint.status }}</span>
+              </td>
+              <td class="text-mono text-muted">{{ complaint.created_at|format_date }}</td>
+              <td style="text-align: right;">
+                <a href="{{ url_for('user.complaint_details', complaint_id=complaint.id) }}" class="btn btn-secondary btn-sm">Details</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <h3 class="empty-title">No tickets found</h3>
+      <p class="empty-desc">No maintenance requests match status "{{ current_status }}".</p>
+      <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary">+ Submit New Request</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

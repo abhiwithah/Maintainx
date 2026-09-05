@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}User Dashboard — MaintainX{% endblock %}
+
+{% block content %}
+<div class="container" style="padding-top: 2.5rem; padding-bottom: 5rem;">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div>
+      <div class="section-label">User Operations</div>
+      <h1 class="dashboard-title editorial-serif">Welcome back, {{ user.name if user else current_user_name }}</h1>
+      <p class="dashboard-subtitle">Monitor your active maintenance tickets and report new facility issues.</p>
+    </div>
+    <div>
+      <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary" id="dash-new-ticket-btn">+ Submit New Request</a>
+    </div>
+  </div>
+
+  <!-- Metric Statistics Grid -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total Requests</div>
+      <div class="stat-value">{{ stats.total }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending Review</div>
+      <div class="stat-value" style="color: var(--accent-yellow-text);">{{ stats.pending }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">In Progress</div>
+      <div class="stat-value" style="color: var(--accent-blue-text);">{{ stats.in_progress }}</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Resolved</div>
+      <div class="stat-value" style="color: var(--accent-green-text);">{{ stats.resolved }}</div>
+    </div>
+  </div>
+
+  <!-- Recent Maintenance Requests Section -->
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+    <h2 style="font-size: 1.25rem; font-weight: 600;">Recent Maintenance Requests</h2>
+    <a href="{{ url_for('user.my_complaints') }}" class="table-link text-mono" style="font-size: 0.85rem;">View All Tickets ({{ stats.total }}) &rarr;</a>
+  </div>
+
+  {% if recent_complaints and recent_complaints|length > 0 %}
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Issue Title</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th style="text-align: right;">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for complaint in recent_complaints %}
+            <tr>
+              <td class="text-mono">#{{ complaint.id }}</td>
+              <td>
+                <a href="{{ url_for('user.complaint_details', complaint_id=complaint.id) }}" class="table-link">
+                  <strong>{{ complaint.title }}</strong>
+                </a>
+              </td>
+              <td><span class="text-mono">{{ complaint.category }}</span></td>
+              <td>{{ complaint.location }}</td>
+              <td>
+                <span class="badge badge-{{ complaint.priority|lower }}">{{ complaint.priority }}</span>
+              </td>
+              <td>
+                <span class="badge badge-{{ complaint.status|lower|replace(' ', '_') }}">{{ complaint.status }}</span>
+              </td>
+              <td class="text-mono text-muted">{{ complaint.created_at|format_date }}</td>
+              <td style="text-align: right;">
+                <a href="{{ url_for('user.complaint_details', complaint_id=complaint.id) }}" class="btn btn-secondary btn-sm">Inspect</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <div class="bento-icon">[00] ZERO ACTIVE TICKETS</div>
+      <h3 class="empty-title">No maintenance requests yet</h3>
+      <p class="empty-desc">You haven't reported any facility or equipment issues yet. Submit your first request whenever needed.</p>
+      <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-primary">+ Submit Request</a>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

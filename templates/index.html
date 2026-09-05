@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}MaintainX — Operational Maintenance & Issue Tracking{% endblock %}
+
+{% block content %}
+<!-- =============================================================================
+     HERO SECTION
+     ============================================================================= -->
+<section class="section section-hero">
+  <div class="container">
+    <div class="hero-tag">Operational Integrity Platform</div>
+    
+    <h1 class="hero-title editorial-serif">
+      The central nervous system for facility repairs, issues, and equipment workflows.
+    </h1>
+    
+    <p class="hero-description">
+      MaintainX centralizes maintenance requests, operational issues, technician assignments, and facility tracking into one transparent, accountable platform.
+    </p>
+
+    <div class="hero-cta-group">
+      {% if is_authenticated %}
+        <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary btn-lg" id="hero-dashboard-btn">Open User Dashboard &rarr;</a>
+        <a href="{{ url_for('user.submit_complaint') }}" class="btn btn-secondary btn-lg" id="hero-submit-btn">Submit a Request</a>
+      {% else %}
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg" id="hero-get-started-btn">Get Started &rarr;</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-lg" id="hero-login-btn">Log In</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================================
+     PROBLEM VS SOLUTION SECTION (Editorial Split)
+     ============================================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">The Operational Dilemma</div>
+      <h2 class="section-title editorial-serif">Why traditional maintenance operations break down.</h2>
+      <p class="section-subtitle">Disorganized communication leads to costly downtime, overlooked hazards, and unmanaged facility degradation.</p>
+    </div>
+
+    <div class="editorial-split">
+      <!-- Problem Card -->
+      <div class="split-card problem-side reveal-on-scroll">
+        <div class="split-card-tag text-mono" style="color: var(--accent-red-text);">01 / The Fragmentation Problem</div>
+        <h3 style="font-size: 1.4rem; margin-bottom: 0.75rem;">Scattered requests & silent delays</h3>
+        <p class="text-muted" style="font-size: 0.95rem;">
+          When work orders rely on informal chats, whiteboard notes, and verbal requests, critical tickets vanish into thin air.
+        </p>
+        <ul class="list-editorial">
+          <li>
+            <span style="color: var(--accent-red-text); font-weight: 700;">&times;</span>
+            <span>Lost requests and untracked repair requests</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-red-text); font-weight: 700;">&times;</span>
+            <span>Zero real-time visibility into technician status</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-red-text); font-weight: 700;">&times;</span>
+            <span>Recurring equipment failure with no history log</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-red-text); font-weight: 700;">&times;</span>
+            <span>Frustrated occupants waiting in the dark</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Solution Card -->
+      <div class="split-card solution-side reveal-on-scroll">
+        <div class="split-card-tag text-mono" style="color: var(--accent-green-text);">02 / The MaintainX Solution</div>
+        <h3 style="font-size: 1.4rem; margin-bottom: 0.75rem;">Centralized accountability & auditability</h3>
+        <p class="text-muted" style="font-size: 0.95rem;">
+          A single source of truth for every light bulb, HVAC compressor, hydraulic valve, and architectural fixture across your facility.
+        </p>
+        <ul class="list-editorial">
+          <li>
+            <span style="color: var(--accent-green-text); font-weight: 700;">&check;</span>
+            <span>Instant issue reporting with category & priority classification</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-green-text); font-weight: 700;">&check;</span>
+            <span>Deterministic state tracking (Pending &rarr; In Progress &rarr; Resolved)</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-green-text); font-weight: 700;">&check;</span>
+            <span>Direct correlation between user tickets and facility assets</span>
+          </li>
+          <li>
+            <span style="color: var(--accent-green-text); font-weight: 700;">&check;</span>
+            <span>Structured SQLite database for reliable persistence</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================================
+     HOW IT WORKS (Step Workflow)
+     ============================================================================= -->
+<section class="section" style="background-color: var(--bg-subtle); border-top: 1px solid var(--border-light); border-bottom: 1px solid var(--border-light);">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Workflow Architecture</div>
+      <h2 class="section-title editorial-serif">How MaintainX operates from report to resolution.</h2>
+      <p class="section-subtitle">Four streamlined phases designed for zero friction and complete operational visibility.</p>
+    </div>
+
+    <div class="workflow-grid">
+      <div class="workflow-step reveal-on-scroll">
+        <div class="step-num">PHASE 01</div>
+        <div class="step-title">Report</div>
+        <div class="step-desc">
+          Authenticated occupants log maintenance tickets in seconds, specifying location, category, urgency, and exact problem details.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 80ms;">
+        <div class="step-num">PHASE 02</div>
+        <div class="step-title">Assign</div>
+        <div class="step-desc">
+          Maintenance teams inspect open requests, evaluate priority levels, and allocate specialized staff to address the fault.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 160ms;">
+        <div class="step-num">PHASE 03</div>
+        <div class="step-title">Track</div>
+        <div class="step-desc">
+          Both users and management monitor status transitions live with clean status badges and timestamped record updates.
+        </div>
+      </div>
+
+      <div class="workflow-step reveal-on-scroll" style="transition-delay: 240ms;">
+        <div class="step-num">PHASE 04</div>
+        <div class="step-title">Resolve</div>
+        <div class="step-desc">
+          Work is marked complete, closing the loop, updating metrics, and archiving the record for historical auditability.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================================================
+     CAPABILITIES BENTO GRID
+     ============================================================================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-label">Core Capabilities</div>
+      <h2 class="section-title editorial-serif">Built for speed, clarity, and precision.</h2>
+      <p class="section-subtitle">Every feature in MaintainX is engineered around essential operational needs.</p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Bento Item 1 -->
+      <div class="bento-card bento-col-8 reveal-on-scroll">
+        <div class="bento-icon">[01] TICKETING ENGINE</div>
+        <h3 class="bento-title">Structured Request Filing</h3>
+        <p class="bento-text">
+          Standardized submission forms eliminate vague problem descriptions. Categorize issues by Electrical, Plumbing, HVAC, Structural, or Equipment with precise priority indicators.
+        </p>
+      </div>
+
+      <!-- Bento Item 2 -->
+      <div class="bento-card bento-col-4 reveal-on-scroll">
+        <div class="bento-icon">[02] SECURITY</div>
+        <h3 class="bento-title">Cryptographic Auth</h3>
+        <p class="bento-text">
+          Secure user registration with PBKDF2:SHA256 password hashing and role-based session isolation.
+        </p>
+      </div>
+
+      <!-- Bento Item 3 -->
+      <div class="bento-card bento-col-4 reveal-on-scroll">
+        <div class="bento-icon">[03] METRICS</div>
+        <h3 class="bento-title">Live Status Counters</h3>
+        <p class="bento-text">
+          Instant computation of total, pending, in-progress, and resolved requests per user.
+        </p>
+      </div>
+
+      <!-- Bento Item 4 -->
+      <div class="bento-card bento-col-8 reveal-on-scroll">
+        <div class="bento-icon">[04] DATA AUDITING</div>
+        <h3 class="bento-title">Complete Resolution History</h3>
+        <p class="bento-text">
+          Inspect individual ticket details, creation timestamps, and ownership boundaries to maintain historical transparency across facility operations.
+        </p>
+      </div>
+    </div>
+
+    <!-- Final Call to Action -->
+    <div class="cta-banner reveal-on-scroll">
+      <div class="section-label" style="justify-content: center;">Start Today</div>
+      <h2 class="cta-banner-title editorial-serif">Transform your facility maintenance workflow.</h2>
+      <p class="cta-banner-sub">Create an account in 30 seconds or log into your existing dashboard.</p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        {% if is_authenticated %}
+          <a href="{{ url_for('user.dashboard') }}" class="btn btn-primary btn-lg">Go to My Dashboard</a>
+        {% else %}
+          <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Create Free Account</a>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-lg">Log In</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

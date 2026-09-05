@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}About — MaintainX Philosophy & Architecture{% endblock %}
+
+{% block content %}
+<section class="section section-hero">
+  <div class="container">
+    <div class="hero-tag">Mission & Architecture</div>
+    <h1 class="hero-title editorial-serif">
+      Simplicity, clarity, and reliability in facility maintenance.
+    </h1>
+    <p class="hero-description">
+      MaintainX was created to replace bloated enterprise software with a fast, readable, and elegant maintenance operations platform.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container container-narrow">
+    <div class="reveal-on-scroll" style="margin-bottom: 3rem;">
+      <h2 class="editorial-serif" style="font-size: 2rem; margin-bottom: 1rem;">The Core Philosophy</h2>
+      <p>
+        Modern maintenance shouldn't require complex multi-tiered menus or confusing enterprise jargon. When a water pipe bursts or an electrical panel trips, speed and clarity are paramount.
+      </p>
+      <p>
+        MaintainX adopts a clean editorial interface influenced by Swiss typography and utilitarian design principles. Every pixel serves a practical function: communicating status, reducing cognitive load, and accelerating task resolution.
+      </p>
+    </div>
+
+    <div class="reveal-on-scroll" style="margin-bottom: 3rem;">
+      <h2 class="editorial-serif" style="font-size: 2rem; margin-bottom: 1rem;">Engineering Principles</h2>
+      <ul class="list-editorial">
+        <li>
+          <strong style="color: var(--ink-primary); min-width: 140px;">No Clutter:</strong>
+          <span class="text-muted">Direct visual hierarchy without distracting ornamentation or unnecessary dependencies.</span>
+        </li>
+        <li>
+          <strong style="color: var(--ink-primary); min-width: 140px;">Strong Security:</strong>
+          <span class="text-muted">Salted password hashing via PBKDF2:SHA256 and protected session decorators.</span>
+        </li>
+        <li>
+          <strong style="color: var(--ink-primary); min-width: 140px;">Solid Persistence:</strong>
+          <span class="text-muted">Reliable SQLite relational storage with parameterized queries for total injection safety.</span>
+        </li>
+        <li>
+          <strong style="color: var(--ink-primary); min-width: 140px;">Open Architecture:</strong>
+          <span class="text-muted">Modular Flask blueprint structure that is easy for engineers of any level to understand and extend.</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="cta-banner reveal-on-scroll">
+      <h2 class="cta-banner-title editorial-serif">Get started with MaintainX today.</h2>
+      <p class="cta-banner-sub">Experience the difference of an uncluttered maintenance platform.</p>
+      <div>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Create Account</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

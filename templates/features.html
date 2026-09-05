@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}Platform Capabilities & Features — MaintainX{% endblock %}
+
+{% block content %}
+<section class="section section-hero">
+  <div class="container">
+    <div class="hero-tag">Platform Features</div>
+    <h1 class="hero-title editorial-serif">
+      Engineered for zero-waste facility maintenance.
+    </h1>
+    <p class="hero-description">
+      Discover the core architectural pillars powering MaintainX: from granular issue submission to live dashboard analytics.
+    </p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="bento-grid">
+      <div class="bento-card bento-col-6 reveal-on-scroll">
+        <div class="bento-icon">[01] ISSUE CLASSIFICATION</div>
+        <h3 class="bento-title">Smart Categorization & Priority</h3>
+        <p class="bento-text">
+          Categorize tickets by Electrical, Plumbing, HVAC, Structural, or General Equipment. Priority flags (Low, Medium, High, Urgent) allow dispatchers to triage emergency repairs instantly.
+        </p>
+      </div>
+
+      <div class="bento-card bento-col-6 reveal-on-scroll">
+        <div class="bento-icon">[02] DASHBOARD AGGREGATION</div>
+        <h3 class="bento-title">Real-Time Metrics Overview</h3>
+        <p class="bento-text">
+          Dynamic dashboard cards automatically calculate active tickets, pending approvals, in-flight work orders, and resolved requests for complete situational awareness.
+        </p>
+      </div>
+
+      <div class="bento-card bento-col-4 reveal-on-scroll">
+        <div class="bento-icon">[03] ACCESS CONTROL</div>
+        <h3 class="bento-title">Role-Based Security</h3>
+        <p class="bento-text">
+          Encrypted authentication with route decorators protects tenant and organizational data from unauthorized access.
+        </p>
+      </div>
+
+      <div class="bento-card bento-col-4 reveal-on-scroll">
+        <div class="bento-icon">[04] PERSISTENCE</div>
+        <h3 class="bento-title">Embedded SQLite Engine</h3>
+        <p class="bento-text">
+          Lightweight, reliable relational database storage with ACID compliance and parameterized query execution.
+        </p>
+      </div>
+
+      <div class="bento-card bento-col-4 reveal-on-scroll">
+        <div class="bento-icon">[05] RESPONSIVE UI</div>
+        <h3 class="bento-title">Adaptive Layouts</h3>
+        <p class="bento-text">
+          Optimized for desktop workstations, tablets, and smartphones on the move across maintenance floors.
+        </p>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-banner reveal-on-scroll" style="margin-top: 3rem;">
+      <h2 class="cta-banner-title editorial-serif">Experience structured maintenance operations.</h2>
+      <p class="cta-banner-sub">Join MaintainX and streamline your facility requests today.</p>
+      <div>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg">Get Started</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

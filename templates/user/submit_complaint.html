@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Submit Maintenance Request — MaintainX{% endblock %}
+
+{% block content %}
+<div class="container container-narrow" style="padding-top: 3rem; padding-bottom: 5rem;">
+  <div style="margin-bottom: 2rem;">
+    <a href="{{ url_for('user.dashboard') }}" class="table-link text-mono" style="font-size: 0.85rem;">&larr; Back to Dashboard</a>
+    <h1 class="editorial-serif" style="font-size: 2.25rem; margin-top: 0.5rem; margin-bottom: 0.25rem;">Report a Maintenance Issue</h1>
+    <p class="text-muted">Fill out the details below to notify facility technicians immediately.</p>
+  </div>
+
+  <div class="detail-card">
+    <!-- Form Action: Submits POST to user.submit_complaint route -->
+    <form method="POST" action="{{ url_for('user.submit_complaint') }}" id="submit-ticket-form">
+      <div class="form-group">
+        <label for="title" class="form-label">Issue Title / Subject *</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          class="form-input" 
+          placeholder="e.g., HVAC unit blowing warm air in Room 302" 
+          value="{{ title or '' }}" 
+          required 
+          autofocus
+        >
+        <div class="form-help">Keep it clear and specific.</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="category" class="form-label">Maintenance Category *</label>
+          <select id="category" name="category" class="form-select" required>
+            <option value="" disabled {% if not category %}selected{% endif %}>Select category...</option>
+            <option value="HVAC / Climate" {% if category == 'HVAC / Climate' %}selected{% endif %}>HVAC / Climate</option>
+            <option value="Electrical & Lighting" {% if category == 'Electrical & Lighting' %}selected{% endif %}>Electrical & Lighting</option>
+            <option value="Plumbing & Water" {% if category == 'Plumbing & Water' %}selected{% endif %}>Plumbing & Water</option>
+            <option value="Structural & Doors" {% if category == 'Structural & Doors' %}selected{% endif %}>Structural & Doors</option>
+            <option value="Equipment & Machinery" {% if category == 'Equipment & Machinery' %}selected{% endif %}>Equipment & Machinery</option>
+            <option value="Safety & Security" {% if category == 'Safety & Security' %}selected{% endif %}>Safety & Security</option>
+            <option value="General Facility" {% if category == 'General Facility' %}selected{% endif %}>General Facility</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="priority" class="form-label">Priority Level *</label>
+          <select id="priority" name="priority" class="form-select" required>
+            <option value="Low" {% if priority == 'Low' %}selected{% endif %}>Low (Minor cosmetic / non-blocking)</option>
+            <option value="Medium" {% if priority == 'Medium' or not priority %}selected{% endif %}>Medium (Standard operational issue)</option>
+            <option value="High" {% if priority == 'High' %}selected{% endif %}>High (Impacting daily work)</option>
+            <option value="Urgent" {% if priority == 'Urgent' %}selected{% endif %}>Urgent (Hazard, leak, power failure)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location" class="form-label">Physical Location / Room Number *</label>
+        <input 
+          type="text" 
+          id="location" 
+          name="location" 
+          class="form-input" 
+          placeholder="e.g., Building A, 3rd Floor, Conference Room B" 
+          value="{{ location or '' }}" 
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Detailed Description of Problem *</label>
+        <textarea 
+          id="description" 
+          name="description" 
+          class="form-textarea" 
+          placeholder="Describe symptoms, noise, when it started, and any safety hazards..." 
+          required
+        >{{ description or '' }}</textarea>
+      </div>
+
+      <div style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: flex-end;">
+        <a href="{{ url_for('user.dashboard') }}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-primary btn-lg" id="submit-ticket-btn">
+          Submit Maintenance Request &rarr;
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
